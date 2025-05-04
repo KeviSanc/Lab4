@@ -1,0 +1,46 @@
+#include <stdio.h>
+
+#define MAX 300
+
+void dfs(char grid[MAX][MAX], int i, int j, int m, int n) {
+    if (i < 0 || j < 0 || i >= m || j >= n || grid[i][j] == '0')
+        return;
+
+    // Mark the cell as visited
+    grid[i][j] = '0';
+
+    // Explore all 4 directions
+    dfs(grid, i + 1, j, m, n);  // Down
+    dfs(grid, i - 1, j, m, n);  // Up
+    dfs(grid, i, j + 1, m, n);  // Right
+    dfs(grid, i, j - 1, m, n);  // Left
+}
+
+int numIslands(char grid[MAX][MAX], int m, int n) {
+    int count = 0;
+
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < n; j++) {
+            if (grid[i][j] == '1') {
+                count++;
+                dfs(grid, i, j, m, n);  // Start DFS to mark the island
+            }
+        }
+    }
+
+    return count;
+}
+
+int main() {
+    char grid[MAX][MAX] = {
+        {'1', '1', '0', '0', '0'},
+        {'1', '1', '0', '0', '0'},
+        {'0', '0', '1', '0', '0'},
+        {'0', '0', '0', '1', '1'}
+    };
+
+    int m = 4, n = 5;
+    printf("Number of islands: %d\n", numIslands(grid, m, n));
+
+    return 0;
+}
